@@ -16,6 +16,7 @@ public class GoalController : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if(other.name == "Player")
         {
+            GameManager.instance.LevelClear();
             Initiate.Fade(SceneManager.GetActiveScene().buildIndex + 1, Color.white, 1.0f);
         }
     }

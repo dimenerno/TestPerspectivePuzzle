@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelSelector : MonoBehaviour
 {
@@ -13,7 +14,6 @@ public class LevelSelector : MonoBehaviour
 
     List<Transform> levelArray = new List<Transform>();
     List<Text> textArray = new List<Text>();
-
     int key = 0;
 
     // Start is called before the first frame update
@@ -49,13 +49,18 @@ public class LevelSelector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D) && key < 14)
+        Debug.Log(GameManager.instance.GetNumberOfLevelsUnlocked());
+
+        if (Input.GetKeyDown(KeyCode.D) && key < GameManager.instance.GetNumberOfLevelsUnlocked() - 1)
         {
+            Debug.Log(GameManager.instance.GetNumberOfLevelsUnlocked());
             levelArray[key].gameObject.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
             levelArray[key].gameObject.GetComponent<Renderer>().material = level.gameObject.GetComponent<Renderer>().sharedMaterial;
             textArray[key].color = new Color(0.37f, 0.37f, 0.51f, 0.2f);
             textArray[key].transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+
             key++;
+
             levelArray[key].gameObject.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
             levelArray[key].gameObject.GetComponent<Renderer>().material = opaque;
             textArray[key].color = new Color(1f, 1f, 1f, 1f);
@@ -67,11 +72,16 @@ public class LevelSelector : MonoBehaviour
             levelArray[key].gameObject.GetComponent<Renderer>().material = level.gameObject.GetComponent<Renderer>().sharedMaterial;
             textArray[key].color = new Color(0.37f, 0.37f, 0.51f, 0.2f);
             textArray[key].transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+
             key--;
+
             levelArray[key].gameObject.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
             levelArray[key].gameObject.GetComponent<Renderer>().material = opaque;
             textArray[key].color = new Color(1f, 1f, 1f, 1f);
             textArray[key].transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+        }
+        if(Input.GetKeyUp(KeyCode.Space)) {
+            Initiate.Fade(key + 1, Color.white, 1.5f);
         }
     }
 }
